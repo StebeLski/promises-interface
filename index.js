@@ -12,7 +12,14 @@ class CustomPromise extends Promise {
   }
 
   static race(iterable) {
-    // code here
+    if (!Array.isArray(iterable)) {
+      throw new TypeError('CustomPromise.race; input must be an array');
+    }
+    return new Promise((resolve, reject) => {
+      iterable.forEach((p) => {
+        Promise.resolve(p).then(resolve, reject);
+      });
+    });
   }
 
   static all(iterable) {
