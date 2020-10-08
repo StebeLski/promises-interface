@@ -23,7 +23,27 @@ class CustomPromise extends Promise {
   }
 
   static all(iterable) {
-    // code here
+    if (!Array.isArray(iterable)) {
+      throw new TypeError('CustomPromise.all; input must be an array');
+    }
+
+    return new Promise((resolve, reject) => {
+      const res = [];
+      let counter = iterable.length;
+      function checkIfDone() {
+        counter--;
+        if (counter === 0) {
+          resolve(res);
+        }
+      }
+
+      iterable.forEach((p, i) => {
+        Promise.resolve(p).then((value) => {
+          res[i] = value;
+          checkIfDone();
+        }, reject);
+      });
+    });
   }
 
   static any(iterable) {
