@@ -1,10 +1,14 @@
 class CustomPromise extends Promise {
   static resolve(value) {
-    // code here
+    return new Promise((resolve) => {
+      resolve(value);
+    });
   }
 
   static reject(value) {
-    // code here
+    return new Promise((resolve, reject) => {
+      reject(value);
+    });
   }
 
   static race(iterable) {
